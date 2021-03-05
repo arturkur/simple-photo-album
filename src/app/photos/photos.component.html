@@ -1,0 +1,12 @@
+<div class="container">
+  <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Photos for album with ID {{ albumId }}</h1>
+  <hr class="mt-2 mb-5">
+  <div class="row text-center text-lg-left">
+    <div *ngFor="let photo of photos" class="col-lg-3 col-md-4 col-6">
+      <a href="{{ photo.url }}" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="{{ photo.thumbnailUrl }}" alt="{{ photo.title }}">
+          </a>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-clip-rotate" [fullScreen] = "true"></ngx-spinner>

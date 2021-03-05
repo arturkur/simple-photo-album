@@ -1,0 +1,29 @@
+<h2 class="text-center mt-4 mb-4 display-3">
+  Showing albums for user with ID {{ userId }}
+</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="main-box no-header clearfix">
+        <div class="main-box-body clearfix">
+          <div class="table-responsive">
+            <table class="table user-list">
+              <thead>
+                <tr>
+                  <th><span>Album ID</span></th>
+                  <th><span>Title</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let album of albums">
+                  <td>{{ album.id }}</td>
+                  <td><a routerLink="/albums/{{ album.id }}/photos">{{ album.title }}</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
