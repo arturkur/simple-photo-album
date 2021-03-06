@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../web-services/api.service';
-import { User } from '../web-services/models';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ApiService } from '../services/api.service';
+import { User } from '../services/models';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +11,13 @@ import { User } from '../web-services/models';
 export class HomeComponent implements OnInit {
 
   users: User[];
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    this.apiService.getAllUsers().subscribe((res) => {
-      this.users = res;
+    this.spinner.show();
+    this.apiService.getAllUsers().subscribe((response) => {
+      this.users = response;
+      this.spinner.hide();
     });
   }
 
