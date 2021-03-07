@@ -10,13 +10,15 @@ import { HomeComponent } from './home/home.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { PhotosComponent } from './photos/photos.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoggerComponent } from './logger/logger.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AlbumsComponent,
-    PhotosComponent
+    PhotosComponent,
+    LoggerComponent
   ],
   imports: [
     BrowserModule,

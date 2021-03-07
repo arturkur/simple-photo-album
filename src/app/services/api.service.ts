@@ -9,21 +9,12 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  activeUser: User;
-
   getAllUsers() {
     return this.http.get<User[]>('https://jsonplaceholder.typicode.com/users');
   }
 
   getUser(userId: number) {
-    if (userId === this.activeUser.id) {
-      return this.activeUser;
-    } else {
-      this.http.get<User>(`https://jsonplaceholder.typicode.com/users/${userId}`).subscribe((res) => {
-        this.activeUser = res;
-        return this.activeUser;
-      });
-    }
+    return this.http.get<User>(`https://jsonplaceholder.typicode.com/users/${userId}`);
   }
 
   getUserAlbums(userId: number) {
@@ -40,5 +31,13 @@ export class ApiService {
 
   deletePhoto(photoId: number) {
     return this.http.delete(`https://jsonplaceholder.typicode.com/photos/${photoId}`);
+  }
+
+  addAlbum(album) {
+    return this.http.post<Album>('https://jsonplaceholder.typicode.com/albums/', album);
+  }
+
+  deleteAlbum(albumId: number) {
+    return this.http.delete(`https://jsonplaceholder.typicode.com/albums/${albumId}`);
   }
 }

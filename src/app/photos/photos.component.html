@@ -4,33 +4,26 @@
   </h1>
   <hr class="mt-2 mb-5" />
 
-  <form [formGroup]="photoForm" (ngSubmit)="addPicture()" class="form-group p-2">
+  <form [formGroup]="photoForm" (ngSubmit)="addPhoto()" class="form-group p-2">
     <label for="title">Enter picture title:</label>
-    <input type="text" formControlName="title" class="form-control mb-3 w-50" id="title" required>
+    <input type="text" formControlName="title" class="form-control mb-3 w-50" id="title">
     <label for="url">Enter picture URL:</label>
-    <input type="url" formControlName="url" class="form-control mb-3 w-50" id="url" placeholder="https://example.com" required>
-    <label for="thumbnailUrl">Enter thumbnail URL (optional):</label>
-    <input type="url" formControlName="thumbnailUrl" class="form-control mb-3 w-50" id="thumbnailUrl" placeholder="https://example.com">
+    <input type="url" formControlName="url" class="form-control mb-3 w-50" id="url" placeholder="https://example.com">
     <button type="submit" [disabled]="!photoForm.valid" class="btn btn-success btn">ADD PICTURE</button>
   </form>
 
   <div class="row text-center text-lg-left">
     <div
-      *ngFor="let photo of photos"
+      *ngFor="let photo of photos; let i = index;"
       class="card bg-light m-3"
-      style="width: 12rem"
+      style="width: 13rem"
     >
-      <a href="{{ photo.url }}"
-        ><img class="card-img-top" src="{{ photo.thumbnailUrl }}" alt=""
-      /></a>
+      <img class="card-img-top" src="{{ photo.url }}" alt="{{ photo.title }}"/>
       <div class="card-body d-flex flex-column">
         <p style="font-size: 0.8rem;">{{ photo.title }}</p>
         <button
-          (click)="deletePicture(photo.id)"
-          class="btn btn-outline-danger mt-auto w-5"
-        >
-          Delete
-        </button>
+          (click)="deletePhoto(i)"
+          class="btn btn-outline-danger mt-auto w-5">Delete</button>
       </div>
     </div>
   </div>

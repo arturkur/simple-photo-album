@@ -1,7 +1,15 @@
-<h2 class="text-center mt-4 mb-4 display-3">
+<div class="text-center mt-4 mb-4 display-4">
   Showing albums for user with ID {{ userId }}
-</h2>
+</div>
+
+<h3 class="text-center display-5">Albums: {{ albumsTotal }} Created: {{ albumsCreated }} Deleted: {{ albumsDeleted }}</h3>
 <div class="container">
+  <div class="mt-3 mb-3">
+    <label for="title">Enter album title:</label>
+    <input type="text" #titleInput class="form-control w-50" id="albumTitle">
+    <button (click)="addAlbum(titleInput.value); titleInput.value = ''" class="btn btn-success btn mt-2">ADD ALBUM</button>
+  </div>
+
   <div class="row">
     <div class="col-lg-12">
       <div class="main-box no-header clearfix">
@@ -12,12 +20,14 @@
                 <tr>
                   <th><span>Album ID</span></th>
                   <th><span>Title</span></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let album of albums">
+                <tr *ngFor="let album of albums; let i = index">
                   <td>{{ album.id }}</td>
                   <td><a routerLink="/albums/{{ album.id }}/photos">{{ album.title }}</a></td>
+                  <td><button (click)="deleteAlbum(i)" class="btn btn-outline-danger m-auto">Delete</button></td>
                 </tr>
               </tbody>
             </table>
@@ -27,4 +37,4 @@
     </div>
   </div>
 </div>
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-clip-rotate" [fullScreen] = "true"></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate" [fullScreen]="true"></ngx-spinner>

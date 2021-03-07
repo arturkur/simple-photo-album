@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from '../services/api.service';
+import { LoggerService } from '../services/logger.service';
 import { Photo } from '../services/models';
 
 @Component({
@@ -12,12 +13,10 @@ import { Photo } from '../services/models';
 })
 export class PhotosComponent implements OnInit {
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
+  constructor(private apiService: ApiService, private route: ActivatedRoute, private spinner: NgxSpinnerService, private logService: LoggerService) { }
 
   albumId: number;
   photos: Photo[];
-  showAddImageInput = false;
-
   photoForm: FormGroup;
 
   ngOnInit(): void {
@@ -29,34 +28,32 @@ export class PhotosComponent implements OnInit {
     });
 
     this.photoForm = new FormGroup({
-      thumbnailUrl: new FormControl(''),
-      url: new FormControl(''),
-      title: new FormControl('')
+      url: new FormControl('', [Validators.required]),
+      title: new FormControl('', [Validators.required])
     });
   }
 
-  addPicture() {
-    let thumbnailUrl = this.photoForm.get('thumbnailUrl').value;
-    if (!thumbnailUrl) {
-      thumbnailUrl = this.photoForm.get('url').value;
-    }
-
+  addPhoto() {
     const newPhoto = {
       albumId: +this.albumId,
-      thumbnailUrl: thumbnailUrl,
+      thumbnailUrl: "",
       url: this.photoForm.get('url').value,
       title: this.photoForm.get('title').value
     };
+    this.spinner.show();
     this.apiService.addPhoto(newPhoto).subscribe((response) => {
       this.photos.unshift(response);
+      console.log(response);
+      this.spinner.hide();
     });
     this.photoForm.reset();
+    this.logService.log(new Date().toLocaleString() + " - One picture added to album " + this.albumId);
   }
 
-  deletePicture(id: number) {
-    const index = this.photos.findIndex(i => i.id === id);
+  deletePhoto(index: number) {
     this.photos.splice(index, 1);
-    this.apiService.deletePhoto(id);
+    this.apiService.deletePhoto(this.photos[index].id);
+    this.logService.log(new Date().toLocaleString() + " - One picture deleted from album " + this.albumId);
   }
 
 }
